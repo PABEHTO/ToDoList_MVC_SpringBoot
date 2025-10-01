@@ -1,5 +1,6 @@
 package com.apress.controller;
 
+import com.apress.entity.State;
 import com.apress.entity.dto.TaskContainerDto;
 import com.apress.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class CommonController {
 
     @RequestMapping(value = "/finish-task", method = RequestMethod.POST)
     public String finishTask(@RequestParam int id, @RequestParam(name="filterParam", required = false) String filterParam) {
-        taskService.finishTask(id);
+        taskService.updateTaskState(id, State.DONE);
         return "redirect:/home" + (filterParam != null || filterParam.isBlank() ? "?filterParam=" +filterParam : "");
     }
 

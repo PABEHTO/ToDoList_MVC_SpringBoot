@@ -1,10 +1,11 @@
 package com.apress.service;
 
-import com.apress.dao.TaskDao;
+import com.apress.repository.TaskRepository;
 import com.apress.entity.State;
 import com.apress.entity.Task;
 import com.apress.entity.dto.TaskContainerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +16,16 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class TaskService {
-    private final TaskDao taskDao;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskService(TaskDao taskDao) {
-        this.taskDao = taskDao;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     public TaskContainerDto findAllTasks(String filterParam) {
         //return taskDao.findAllTasks();
-        List<Task> tasks = taskDao.findAllTasks();
+        List<Task> tasks = taskRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         int doneTasksQuantity = (int)tasks.stream().filter(t -> t.getState().equals(State.DONE)).count();
         int activeTasksQuantity = (int)tasks.stream().filter(t -> t.getState().equals(State.ACTIVE)).count();
 
@@ -46,15 +47,24 @@ public class TaskService {
 
     public void saveTask(String name) {
         if (name != null && !name.isBlank()) {
-            taskDao.saveTask(new Task(name, State.ACTIVE));
+            taskRepository.save(new Task(name, State.ACTIVE));
         }
     }
 
-    public void finishTask(int id) {
-        taskDao.finishTask(id);
-    }
+    /*public void finishTask(int id) {
+        taskRepository.findById(id);
+    }*/
 
     public void deleteTask(int id) {
-        taskDao.deleteTask(id);
+        taskRepository.deleteById(id);
+    }
+
+    public void updateTaskState(int id, State state) {
+        /*taskRepository.findById(id).ifPresent(t -> {
+            t.setState(state);
+            taskRepository.save(t);
+                }
+        );*/
+        taskRepository.update(id, state);
     }
 }
