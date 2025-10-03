@@ -1,4 +1,4 @@
-package com.apress.controller;
+package com.apress.controller.secured;
 
 import com.apress.entity.State;
 import com.apress.entity.dto.TaskContainerDto;
@@ -6,49 +6,43 @@ import com.apress.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-public class CommonController {
+@RequestMapping("/account")
+public class PrivateAccountController {
     private final TaskService taskService;
 
     @Autowired
-    public CommonController(TaskService taskService) {
+    public PrivateAccountController(TaskService taskService) {
         this.taskService = taskService;
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @GetMapping
     public String getMainPage(Model model, @RequestParam(name = "filterParam", required = false) String filterParam) {
         TaskContainerDto container = taskService.findAllTasks(filterParam);
         model.addAttribute("tasks", container.getTasks());
         model.addAttribute("numberOfDoneTasks", container.getDoneTasksQuantity());
         model.addAttribute("numberOfActiveTasks", container.getActiveTasksQuantity());
-        return "main-page";
+        return "private/main-account-page";
     }
 
-    @RequestMapping(value = "/add-task", method = RequestMethod.POST)
+   @PostMapping("/add-task")
     public String addTask(@RequestParam String name) {
         taskService.saveTask(name);
-        return "redirect:/home";
+        return "redirect:/account";
     }
 
-    @RequestMapping("/")
-    public String goToHome() {
-        return "redirect:/home";
-    }
-
-    @RequestMapping(value = "/finish-task", method = RequestMethod.POST)
+    @PostMapping("/finish-task")
     public String finishTask(@RequestParam int id, @RequestParam(name="filterParam", required = false) String filterParam) {
         taskService.updateTaskState(id, State.DONE);
-        return "redirect:/home" + (filterParam != null || filterParam.isBlank() ? "?filterParam=" +filterParam : "");
+        return "redirect:/account" + (filterParam != null || filterParam.isBlank() ? "?filterParam=" +filterParam : "");
     }
 
-    @RequestMapping(value="/delete-task", method = RequestMethod.POST)
+    @PostMapping("/delete-task")
     public String deleteTask(@RequestParam int id, @RequestParam(name="filterParam", required = false) String filterParam) {
         taskService.deleteTask(id);
-        return "redirect:/home" + (filterParam != null || filterParam.isBlank() ? "?filterParam=" +filterParam : "");
+        return "redirect:/account" + (filterParam != null || filterParam.isBlank() ? "?filterParam=" +filterParam : "");
     }
 }

@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>ToDo List</title>
-    <link rel="stylesheet" href="CSS/main-page.css"/>
+    <link rel="stylesheet" href="CSS/private/account-main-page.css"/>
 </head>
 <body>
 <!--<h1>Здесь когда-нибудь будет ToDo List</h1>-->
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="filter-container">
-            <form th:with="filter=${#strings.toLowerCase(param.filterParam)}" class="filter-form" action="/home"
+            <form th:with="filter=${#strings.toLowerCase(param.filterParam)}" class="filter-form" action="/account"
                   method="get">
                 <div class="filter-form__input">
                     <input th:checked="${filter != 'done' and filter != 'active'}" type="radio"
@@ -52,7 +52,7 @@
                 </div>
                 <div class="task__controls">
 
-                    <form th:if="${task.state.name == 'ACTIVE'}" class="task__controls-form" action="/finish-task"
+                    <form th:if="${task.state.name == 'ACTIVE'}" class="task__controls-form" action="/account/finish-task"
                           method="post">
                         <button type="submit" class="button_type_approve">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
@@ -72,7 +72,7 @@
                         <input th:value="${#strings.toLowerCase(param.filterParam)}" type="hidden" name="filterParam"/>
                     </form>
 
-                    <form class="task__controls-form" action="/delete-task" method="post">
+                    <form class="task__controls-form" action="/account/delete-task" method="post">
                         <button type="submit" class="button_type_close">
                             <svg width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M12.071 13.485l-2.828 2.829-1.415-1.415 2.829-2.828-2.829-2.828 1.415-1.415 2.828 2.829L14.9 7.828l.707.708.707.707-2.829 2.828 2.829 2.829-1.415 1.414-2.828-2.829z"
@@ -87,7 +87,7 @@
 
         </div>
         <div class="management-container">
-            <form class="management-form" action="/add-task" method="post">
+            <form class="management-form" action="/account/add-task" method="post">
                 <input type="text" name="name" placeholder="Write it down" class="management-form__input">
                 <button type="submit" class="management-form__button">Add task</button>
             </form>
