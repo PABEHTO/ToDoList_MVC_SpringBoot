@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create account</title>
-    <link href="/css/public/authorization/authorization-page.css" rel="stylesheet">
+    <link th:href="@{/css/public/authorization/authorization-page.css}" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
@@ -14,10 +14,10 @@
         <div class="form-container">
             <form action="/registration" method="post" class="form-container__form">
                 <div class="form-container__input-wrapper">
-                    <input type="text" name="name" placeholder="Enter your name" class="form-container__input" required>
+                    <input type="text" name="userName" placeholder="Enter your name" class="form-container__input" required>
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="email" name="email" placeholder="Enter your email" class="form-container__input" required>
+                    <input type="email" name="login" placeholder="Enter your email" class="form-container__input" required>
                 </div>
                 <div class="form-container__input-wrapper">
                     <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
