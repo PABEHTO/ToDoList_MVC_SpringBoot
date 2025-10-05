@@ -48,7 +48,14 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login"))
                 .logout(l -> l
                         .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .clearAuthentication(true)
+                        .invalidateHttpSession(true)
                         .permitAll())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/account/**").authenticated()
+                        .anyRequest().permitAll()
+                )
                 .build();
     }
 

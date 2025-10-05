@@ -10,7 +10,6 @@ public class PublicLandingController {
 
     @GetMapping()
     public String getLandingPage() {
-        System.out.println("HEREEEEE!!!!");
         return "public/landing-page";
     }
 }

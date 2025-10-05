@@ -4,6 +4,7 @@ import com.apress.entity.State;
 import com.apress.entity.dto.TaskContainerDto;
 import com.apress.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class PrivateAccountController {
     }
 
     @GetMapping
-    public String getMainPage(Model model, @RequestParam(name = "filterParam", required = false) String filterParam) {
-        TaskContainerDto container = taskService.findAllTasks(filterParam);
+    public String getMainPage(Model model,@RequestParam(name="login", required = false) String login, @RequestParam(name = "filterParam", required = false) String filterParam) {
+        TaskContainerDto container = taskService.findAllTasks(filterParam, login);
         model.addAttribute("tasks", container.getTasks());
         model.addAttribute("numberOfDoneTasks", container.getDoneTasksQuantity());
         model.addAttribute("numberOfActiveTasks", container.getActiveTasksQuantity());

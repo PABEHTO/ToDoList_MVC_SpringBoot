@@ -2,6 +2,8 @@ package com.apress.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "records")
 public class Task {
@@ -39,5 +41,9 @@ public class Task {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

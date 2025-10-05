@@ -1,11 +1,14 @@
 package com.apress.service;
 
+import com.apress.entity.User;
 import com.apress.repository.TaskRepository;
 import com.apress.entity.State;
 import com.apress.entity.Task;
 import com.apress.entity.dto.TaskContainerDto;
+import com.apress.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +20,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
-    public TaskContainerDto findAllTasks(String filterParam) {
+    public TaskContainerDto findAllTasks(String filterParam, String login) {
         //return taskDao.findAllTasks();
+
         List<Task> tasks = taskRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         int doneTasksQuantity = (int)tasks.stream().filter(t -> t.getState().equals(State.DONE)).count();
         int activeTasksQuantity = (int)tasks.stream().filter(t -> t.getState().equals(State.ACTIVE)).count();
