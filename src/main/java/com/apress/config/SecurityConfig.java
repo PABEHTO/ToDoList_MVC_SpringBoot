@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login"))
                 .logout(l -> l
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/login?logout")
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
                         .permitAll())

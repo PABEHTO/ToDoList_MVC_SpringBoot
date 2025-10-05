@@ -28,7 +28,7 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public TaskContainerDto findAllTasks(String filterParam, String login) {
+    public TaskContainerDto findAllTasks(String filterParam) {
         //return taskDao.findAllTasks();
 
         List<Task> tasks = taskRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));

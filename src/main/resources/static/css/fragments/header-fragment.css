@@ -1,0 +1,22 @@
+.nav-all {
+    background-color: lightblue;
+    border-radius: 10px;
+
+}
+
+.nav-bar {
+    display: flex;
+    gap: 4%;
+    justify-content: center;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: blue;
+}
